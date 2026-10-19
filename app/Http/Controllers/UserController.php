@@ -6,12 +6,24 @@ use App\Exceptions\AdminMinimumCountException;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * アカウントコントローラー
+ */
 class UserController extends Controller
 {
-    public function index(Request $request, UserService $service)
+    /**
+     * アカウントの一覧を取得してビューを返す
+     *
+     * @param Request $request
+     * @param UserService $service
+     * @return View user.index
+     */
+    public function index(Request $request, UserService $service): View
     {
         if ($request->has('status') && $request->status == 'disabled') {
             $users = $service->listByDisabled();
@@ -21,29 +33,60 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
-    public function create()
+    /**
+     * アカウント作成画面のビューを返す
+     *
+     * @return View user.create
+     */
+    public function create(): View
     {
         return view('user.create');
     }
 
-    public function store(UserRequest $request, UserService $service)
+    /**
+     * 登録処理を行いセッションにuser_dataを入れて（with処理）ルートuser.create_completeにリダイレクト
+     *
+     * @param UserRequest $request
+     * @param UserService $service
+     * @return RedirectResponse user.create_complete
+     */
+    public function store(UserRequest $request, UserService $service):RedirectResponse
     {
         $user_data = $service->create($request->validated());
         return redirect()->route('user.create_complete')->with('user_data', $user_data);
     }
 
-    public function createComplete()
+    /**
+     * セッションにあるuser_dataでuser.create_completeのビューを返す
+     *
+     * @return View user.create_complete
+     */
+    public function createComplete(): View
     {
         $user_data = session()->get('user_data');
         return view('user.create_complete', compact('user_data'));
     }
 
-    public function edit(User $user)
+    /**
+     * アカウント情報編集画面のビューを返す
+     *
+     * @param User $user
+     * @return View user.edit
+     */
+    public function edit(User $user): View
     {
         return view('user.edit', ['edit_user' => $user]);
     }
 
-    public function update(UserRequest $request, User $user, UserService $service)
+    /**
+     * 更新処理を行いルートuser.indexにリダイレクトする
+     *
+     * @param UserRequest $request
+     * @param User $user
+     * @param UserService $service
+     * @return RedirectResponse user.index
+     */
+    public function update(UserRequest $request, User $user, UserService $service): RedirectResponse
     {
         try {
             $service->update($user, $request->validated());
@@ -53,7 +96,14 @@ class UserController extends Controller
         }
     }
 
-    public function changeIsEnabled(User $user, UserService $service)
+    /**
+     * アカウント有効無効処理を行いルートuser.indexにリダイレクトする
+     *
+     * @param User $user
+     * @param UserService $service
+     * @return RedirectResponse user.index
+     */
+    public function changeIsEnabled(User $user, UserService $service): RedirectResponse
     {
         try {
             $service->changeIsEnabled($user);
@@ -63,7 +113,12 @@ class UserController extends Controller
         }
     }
 
-    public function password()
+    /**
+     * パスワードの変更画面のビューを返す
+     *
+     * @return View user.password
+     */
+    public function password(): View
     {
         return view('user.password');
     }
