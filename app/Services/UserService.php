@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -15,9 +16,9 @@ class UserService
     /**
      * 有効なアカウントのコレクションを返す
      *
-     * @return Collection 有効なアカウントのコレクション
+     * @return LengthAwarePaginator 有効なアカウントのコレクション
      */
-    public function listByEnabled(): Collection
+    public function listByEnabled(): LengthAwarePaginator
     {
         return User::where('is_enabled', true)->paginate(10);
     }
@@ -25,9 +26,9 @@ class UserService
     /**
      * 無効なアカウントのコレクションを返す
      *
-     * @return Collection 無効なアカウントのコレクション
+     * @return LengthAwarePaginator 無効なアカウントのコレクション
      */
-    public function listByDisabled(): Collection
+    public function listByDisabled(): LengthAwarePaginator
     {
         return User::where('is_enabled', false)->paginate(10);
     }
@@ -77,7 +78,7 @@ class UserService
      * @param array $validated
      * @return void
      */
-    public function update(User $user, array $validated)
+    public function update(User $user, array $validated): void
     {
         $user->update($validated);
     }
@@ -88,7 +89,7 @@ class UserService
      * @param User $user
      * @return void
      */
-    public function changeIsEnabled(User $user)
+    public function changeIsEnabled(User $user): void
     {
         $user->update(['is_enabled' => !$user->is_enabled]);
     }
