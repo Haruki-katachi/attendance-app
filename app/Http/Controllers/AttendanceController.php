@@ -39,7 +39,7 @@ class AttendanceController extends Controller
      */
     public function store(AttendanceService $service): RedirectResponse
     {
-        $service->registerAttendance();
+        $service->registerAttendance(Auth::user());
 
         return redirect()->route('attendance.index');
     }
