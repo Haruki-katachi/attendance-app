@@ -67,6 +67,7 @@ class AttendanceService
     /**
      * 記録を作成するかnullのclockout_timeを記録する形で更新する
      *
+     * @param int $user_id
      * @return void
      */
     public function registerAttendance($user_id): void
