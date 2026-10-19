@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 勤怠記録モデル
+ */
 #[Fillable(['user_id', 'clockin_time', 'clockout_time'])]
 class AttendanceRecord extends Model
 {

@@ -12,6 +12,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Override;
 
+/**
+ * アカウントのモデル
+ */
 #[Fillable(['name', 'email', 'password', 'is_enabled', 'is_admin', 'needs_password_change'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
