@@ -5,6 +5,9 @@ namespace App\Http\Response;
 use Laravel\Fortify\Contracts\LogoutResponse as ContractsLogoutResponse;
 use Override;
 
+/**
+ * ログアウト処理の後のクラス
+ */
 class LogoutResponse implements ContractsLogoutResponse
 {
     #[Override]
