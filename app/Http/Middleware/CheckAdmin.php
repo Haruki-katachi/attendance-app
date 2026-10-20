@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-
+/**
+ * 管理者のチェックを行うミドルウェア
+ */
 class CheckAdmin
 {
     /**

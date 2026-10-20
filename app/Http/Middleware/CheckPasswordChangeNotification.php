@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-
+/**
+ * パスワード変更要求フラグの確認を行いtrueの場合はパスワード変更画面へと送るミドルウェア
+ */
 class CheckPasswordChangeNotification
 {
     /**
